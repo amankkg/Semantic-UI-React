@@ -16,12 +16,6 @@ describe('Tab', () => {
   ]
 
   describe('menu', () => {
-    it('defaults to an attached left aligned tabular menu', () => {
-      Tab.defaultProps
-        .should.have.property('menu')
-        .which.deep.equals({ attached: true, tabular: true, aligned: 'left' })
-    })
-
     it('passes the props to the Menu', () => {
       shallow(<Tab menu={{ 'data-foo': 'bar' }} />)
         .find('Menu')
@@ -54,16 +48,6 @@ describe('Tab', () => {
       wrapper.childAt(1).should.match('Menu')
     })
 
-    it("renders right of the pane when aligned='right'", () => {
-      const wrapper = shallow(<Tab menu={{ fluid: true, vertical: true, aligned: 'right' }} panes={panes} />)
-
-      wrapper.childAt(0).should.match('Grid')
-      wrapper.childAt(0).shallow().childAt(0).should.match('GridColumn')
-      wrapper.childAt(0).shallow().childAt(0).shallow().childAt(0).shallow().should.match('Segment')
-      wrapper.childAt(0).shallow().childAt(1).should.match('GridColumn')
-      wrapper.childAt(0).shallow().childAt(1).shallow().childAt(0).should.match('Menu')
-    })
-
     it("renders left of the pane when tabular='true'", () => {
       const wrapper = shallow(<Tab menu={{ fluid: true, vertical: true, tabular: true }} panes={panes} />)
 
@@ -72,6 +56,22 @@ describe('Tab', () => {
       wrapper.childAt(0).shallow().childAt(0).shallow().childAt(0).should.match('Menu')
       wrapper.childAt(0).shallow().childAt(1).should.match('GridColumn')
       wrapper.childAt(0).shallow().childAt(1).shallow().childAt(0).shallow().should.match('Segment')
+    })
+  })
+
+  describe('menuAligned', () => {
+    it('defaults to an attached left aligned tabular menu', () => {
+      Tab.defaultProps.should.have.property('menuAligned', 'left')
+    })
+
+    it("renders right of the pane when set 'right'", () => {
+      const wrapper = shallow(<Tab menu={{ fluid: true, vertical: true }} menuAligned='right' panes={panes} />)
+
+      wrapper.childAt(0).should.match('Grid')
+      wrapper.childAt(0).shallow().childAt(0).should.match('GridColumn')
+      wrapper.childAt(0).shallow().childAt(0).shallow().childAt(0).shallow().should.match('Segment')
+      wrapper.childAt(0).shallow().childAt(1).should.match('GridColumn')
+      wrapper.childAt(0).shallow().childAt(1).shallow().childAt(0).should.match('Menu')
     })
   })
 
